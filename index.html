@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สร้างผู้ใช้ใหม่</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8d8d1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-top: 10px solid #ff7f7f; /* เพิ่มขอบบน */
+    }
+    h1 {
+      font-size: 20px;
+      text-align: center;
+    }
+    label {
+      font-size: 14px;
+      display: block;
+      margin-top: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>สร้างผู้ใช้ใหม่</h1>
+    <label for="username">ชื่อผู้ใช้</label>
+    <input type="text" id="username" placeholder="ชื่อผู้ใช้">
+    
+    <label for="expiry_date">เลือก วันหมดอายุ</label>
+    <input type="date" id="expiry_date">
+    
+    <label for="user_id">ไอดี</label>
+    <input type="text" id="user_id" placeholder="ไอดี">
+    
+    <button id="submit">สร้างผู้ใช้</button>
+  </div>
+
+  <script>
+    document.getElementById("submit").addEventListener("click", async () => {
+      const username = document.getElementById("username").value;
+      const expiryDate = document.getElementById("expiry_date").value;
+      const userId = document.getElementById("user_id").value;
+
+      const data = {
+        username,
+        expiry_date: expiryDate,
+        id: userId,
+      };
+
+      try {
+        const response = await fetch("https://your-3xuiv2ray-api-endpoint.com/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert("สร้างผู้ใช้สำเร็จ!");
+        } else {
+          alert("มีข้อผิดพลาดเกิดขึ้น");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("ไม่สามารถเชื่อมต่อ API ได้");
+      }
+    });
+  </script>
+</body>
+</html>
