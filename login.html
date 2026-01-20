@@ -2,27 +2,61 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Login / Register</title>
 </head>
 <body>
 
-<h2>เข้าสู่ระบบ</h2>
+<h2>เข้าสู่ระบบ / สมัครสมาชิก</h2>
 
 <input id="username" placeholder="Username"><br><br>
 <input id="password" type="password" placeholder="Password"><br><br>
 
 <button onclick="login()">Login</button>
+<button onclick="register()">สมัครสมาชิก</button>
 
 <script>
+  // ดึงรายชื่อผู้ใช้ที่เคยสมัครไว้
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // สมัครสมาชิก
+  function register() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if (user === "" || pass === "") {
+      alert("กรุณากรอกข้อมูลให้ครบ");
+      return;
+    }
+
+    // เช็คว่าชื่อผู้ใช้ซ้ำไหม
+    const exists = users.find(u => u.username === user);
+    if (exists) {
+      alert("ชื่อผู้ใช้นี้มีอยู่แล้ว");
+      return;
+    }
+
+    // บันทึกผู้ใช้ใหม่
+    users.push({ username: user, password: pass });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("สมัครสมาชิกสำเร็จ 🎉");
+  }
+
+  // ล็อกอิน
   function login() {
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
-    if (user === "admin" && pass === "1234") {
-      localStorage.setItem("login", "yes");   // บอกว่า login แล้ว
-      window.location.href = "index.html";   // ไปหน้าหลัก
+    const found = users.find(
+      u => u.username === user && u.password === pass
+    );
+
+    if (found) {
+      localStorage.setItem("login", "yes");
+      localStorage.setItem("user", user);
+      window.location.href = "index.html";
     } else {
-      alert("ชื่อผู้ใช้หรือรหัสผ่านผิด");
+      alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     }
   }
 </script>
