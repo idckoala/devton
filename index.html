@@ -2,23 +2,77 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - VPN</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>VPN Servers</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="bg-gray-100 text-gray-800">
 
-<div class="bg-white p-6 rounded-lg shadow w-full max-w-sm">
-  <h2 class="text-2xl font-bold mb-4 text-center">VPN Login</h2>
+  <!-- Header -->
+  <header class="bg-white shadow">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">VPN Servers</h1>
+      <nav class="space-x-4">
+        <a href="#" class="text-blue-600 hover:underline">Home</a>
+        <a href="#" class="text-blue-600 hover:underline">Servers</a>
+        <a href="#" class="text-blue-600 hover:underline">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-  <input id="user" type="text" placeholder="Username" class="w-full border p-2 mb-3 rounded">
-  <input id="pass" type="password" placeholder="Password" class="w-full border p-2 mb-4 rounded">
+  <!-- Search / Filter -->
+  <section class="container mx-auto px-6 py-4 flex gap-4">
+    <input id="searchInput" type="text" placeholder="ค้นหาประเทศ..." class="flex-grow border rounded-lg px-4 py-2">
+    <button onclick="filterServers()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">ค้นหา</button>
+  </section>
 
-  <button onclick="login()" class="w-full bg-blue-600 text-white py-2 rounded">Login</button>
+  <!-- Servers Grid -->
+  <section class="container mx-auto px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="serversList">
+    <!-- JavaScript จะเติมรายการที่นี่ -->
+  </section>
 
-  <p id="error" class="text-red-500 text-sm mt-3"></p>
-</div>
+  <script>
+    const servers = [
+      { country: 'United States', ip: 'us.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
+      { country: 'Japan', ip: 'jp.vpn.smilevpn.net', status: 'Online', speed: 'Medium' },
+      { country: 'Singapore', ip: 'sg.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
+      { country: 'United Kingdom', ip: 'uk.vpn.smilevpn.net', status: 'Busy', speed: 'Slow' },
+      { country: 'Australia', ip: 'au.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
+      { country: 'Germany', ip: 'de.vpn.smilevpn.net', status: 'Online', speed: 'Medium' }
+    ];
 
-<script src="auth.js"></script>
+    function displayServers(list) {
+      const container = document.getElementById('serversList');
+      container.innerHTML = '';
+      list.forEach(server => {
+        container.innerHTML += `
+          <div class="bg-white p-5 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold">${server.country}</h2>
+            <p class="text-sm text-gray-600 mt-1">IP: ${server.ip}</p>
+            <p class="mt-2"><strong>Status:</strong> <span class="text-green-600">${server.status}</span></p>
+            <p><strong>Speed:</strong> <span class="text-indigo-600">${server.speed}</span></p>
+            <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Connect</button>
+          </div>
+        `;
+      });
+    }
+
+    function filterServers() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = servers.filter(server => 
+        server.country.toLowerCase().includes(search)
+      );
+      displayServers(filtered);
+    }
+
+    // เริ่มต้นแสดงทุก server
+    displayServers(servers);
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-white mt-12 py-4 text-center text-gray-600 text-sm">
+    © 2026 VPN Service • All rights reserved
+  </footer>
+
 </body>
 </html>
