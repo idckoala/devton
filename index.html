@@ -1,115 +1,147 @@
-<script>
-  if (localStorage.getItem("login") !== "yes") {
-    window.location.href = "login.html";
-  }
-</script>
-
-
-<script>
-  if (localStorage.getItem("login") !== "yes") {
-    window.location.href = "login.html";
-  }
-</script>
-
-
-
-
-<body>
-
-<script>
-  if (localStorage.getItem("login") !== "yes") {
-    window.location.href = "login.html";
-  }
-</script>
-
-<!-- โค้ด VPN Servers ของคุณ -->
-<header>...</header>
-<section>...</section>
-
-</body>
 
 
 
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>VPN Servers</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Anime VPN</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top, rgba(255,182,193,.4), transparent 40%),
+    linear-gradient(135deg,#6a11cb,#2575fc,#ff9a9e);
+  z-index:-2;
+}
+.glass{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.25);
+}
+.anime-card{
+  transition:.4s;
+}
+.anime-card:hover{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 25px 60px rgba(255,182,193,.6);
+}
+.nav-btn{
+  transition:.3s;
+}
+.nav-btn.active,
+.nav-btn:hover{
+  color:#f9a8d4;
+  transform:translateY(-4px);
+}
+</style>
 </head>
-<body class="bg-gray-100 text-gray-800">
 
-  <!-- Header -->
-  <header class="bg-white shadow">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">VPN Servers</h1>
-      <nav class="space-x-4">
-        <a href="#" class="text-blue-600 hover:underline">Home</a>
-        <a href="#" class="text-blue-600 hover:underline">Servers</a>
-        <a href="#" class="text-blue-600 hover:underline">Contact</a>
-      </nav>
-    </div>
-  </header>
+<body class="text-white min-h-screen pb-24">
 
-  <!-- Search / Filter -->
-  <section class="container mx-auto px-6 py-4 flex gap-4">
-    <input id="searchInput" type="text" placeholder="ค้นหาประเทศ..." class="flex-grow border rounded-lg px-4 py-2">
-    <button onclick="filterServers()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">ค้นหา</button>
-  </section>
+<!-- 🌸 Header -->
+<header class="glass mx-4 mt-4 rounded-2xl">
+  <div class="px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold">🌸 Anime VPN</h1>
+    <span class="text-sm opacity-70">Premium</span>
+  </div>
+</header>
 
-  <!-- Servers Grid -->
-  <section class="container mx-auto px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="serversList">
-    <!-- JavaScript จะเติมรายการที่นี่ -->
-  </section>
+<!-- 🔍 Search -->
+<section class="px-6 py-6">
+  <div class="glass rounded-2xl p-4 flex gap-3">
+    <input id="searchInput" placeholder="🔍 ค้นหาประเทศ..."
+      class="flex-grow bg-transparent outline-none text-white placeholder-white/70">
+    <button onclick="filterServers()"
+      class="bg-pink-400 hover:bg-pink-500 px-6 py-2 rounded-xl">
+      Search
+    </button>
+  </div>
+</section>
 
-  <script>
-    const servers = [
-      { country: 'United States', ip: 'us.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
-      { country: 'Japan', ip: 'jp.vpn.smilevpn.net', status: 'Online', speed: 'Medium' },
-      { country: 'Singapore', ip: 'sg.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
-      { country: 'United Kingdom', ip: 'uk.vpn.smilevpn.net', status: 'Busy', speed: 'Slow' },
-      { country: 'Australia', ip: 'au.vpn.smilevpn.net', status: 'Online', speed: 'Fast' },
-      { country: 'Germany', ip: 'de.vpn.smilevpn.net', status: 'Online', speed: 'Medium' }
-    ];
+<!-- 🌐 Servers -->
+<section class="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+         id="serversList"></section>
 
-    function displayServers(list) {
-      const container = document.getElementById('serversList');
-      container.innerHTML = '';
-      list.forEach(server => {
-        container.innerHTML += `
-          <div class="bg-white p-5 rounded-lg shadow-md">
-            <h2 class="text-xl font-semibold">${server.country}</h2>
-            <p class="text-sm text-gray-600 mt-1">IP: ${server.ip}</p>
-            <p class="mt-2"><strong>Status:</strong> <span class="text-green-600">${server.status}</span></p>
-            <p><strong>Speed:</strong> <span class="text-indigo-600">${server.speed}</span></p>
-            <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Connect</button>
-          </div>
-        `;
-      });
-    }
+<!-- 📌 Bottom Bar -->
+<nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] max-w-md glass rounded-3xl shadow-xl">
+  <div class="flex justify-around py-3 text-center">
+    
+    <button class="nav-btn active flex flex-col items-center text-sm">
+      🏠
+      <span class="text-xs">Home</span>
+    </button>
 
-    function filterServers() {
-      const search = document.getElementById('searchInput').value.toLowerCase();
-      const filtered = servers.filter(server => 
-        server.country.toLowerCase().includes(search)
-      );
-      displayServers(filtered);
-    }
+    <button class="nav-btn flex flex-col items-center text-sm">
+      🌐
+      <span class="text-xs">Servers</span>
+    </button>
 
-    // เริ่มต้นแสดงทุก server
-    displayServers(servers);
-  </script>
+    <button class="nav-btn flex flex-col items-center text-sm">
+      ⚡
+      <span class="text-xs">Connect</span>
+    </button>
 
-  <!-- Footer -->
-  <footer class="bg-white mt-12 py-4 text-center text-gray-600 text-sm">
-    © 2026 VPN Service • All rights reserved
-  </footer>
+    <button class="nav-btn flex flex-col items-center text-sm">
+      ⭐
+      <span class="text-xs">Premium</span>
+    </button>
+
+    <button class="nav-btn flex flex-col items-center text-sm">
+      ⚙️
+      <span class="text-xs">Settings</span>
+    </button>
+
+  </div>
+</nav>
+
+<script>
+const servers=[
+ {country:'United States',ip:'us.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇺🇸'},
+ {country:'Japan',ip:'jp.vpn.smilevpn.net',status:'Online',speed:'Medium',flag:'🇯🇵'},
+ {country:'Singapore',ip:'sg.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇸🇬'},
+ {country:'United Kingdom',ip:'uk.vpn.smilevpn.net',status:'Busy',speed:'Slow',flag:'🇬🇧'},
+ {country:'Australia',ip:'au.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇦🇺'},
+ {country:'Germany',ip:'de.vpn.smilevpn.net',status:'Online',speed:'Medium',flag:'🇩🇪'}
+];
+
+function badge(text,color){
+ return `<span class="px-3 py-1 rounded-full text-xs bg-${color}-400/30 text-${color}-200">${text}</span>`;
+}
+
+function displayServers(list){
+ const box=document.getElementById("serversList");
+ box.innerHTML="";
+ list.forEach(s=>{
+  box.innerHTML+=`
+   <div class="glass anime-card rounded-3xl p-6">
+     <h2 class="text-xl font-semibold">${s.flag} ${s.country}</h2>
+     <p class="text-sm text-white/70">${s.ip}</p>
+     <div class="flex gap-2 mt-3">
+       ${badge(s.status,s.status=="Online"?"green":"yellow")}
+       ${badge(s.speed,"pink")}
+     </div>
+     <button class="mt-5 w-full py-3 rounded-xl
+       bg-gradient-to-r from-pink-400 to-purple-500">
+       ⚡ Connect
+     </button>
+   </div>`;
+ });
+}
+
+function filterServers(){
+ const q=document.getElementById("searchInput").value.toLowerCase();
+ displayServers(servers.filter(s=>s.country.toLowerCase().includes(q)));
+}
+
+displayServers(servers);
+</script>
 
 </body>
 </html>
-
-
-
-
-
