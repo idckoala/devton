@@ -1,12 +1,9 @@
-
-
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Anime VPN</title>
+<title>🌸 Anime VPN</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -32,115 +29,89 @@ body::before{
   transform:translateY(-6px) scale(1.03);
   box-shadow:0 25px 60px rgba(255,182,193,.6);
 }
-.nav-btn{
-  transition:.3s;
+.toast{
+  position:fixed;
+  bottom:100px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.7);
+  padding:12px 20px;
+  border-radius:999px;
+  font-size:14px;
+  opacity:0;
+  transition:.4s;
+  z-index:50;
 }
-.nav-btn.active,
-.nav-btn:hover{
-  color:#f9a8d4;
-  transform:translateY(-4px);
+.toast.show{
+  opacity:1;
 }
 </style>
 </head>
 
-<body class="text-white min-h-screen pb-24">
+<body class="text-white min-h-screen pb-28">
 
-<!-- 🌸 Header -->
+<!-- Header -->
 <header class="glass mx-4 mt-4 rounded-2xl">
   <div class="px-6 py-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold">🌸 Anime VPN</h1>
-    <span class="text-sm opacity-70">Premium</span>
+    <span class="text-sm opacity-70">TH Server</span>
   </div>
 </header>
 
-<!-- 🔍 Search -->
-<section class="px-6 py-6">
-  <div class="glass rounded-2xl p-4 flex gap-3">
-    <input id="searchInput" placeholder="🔍 ค้นหาประเทศ..."
-      class="flex-grow bg-transparent outline-none text-white placeholder-white/70">
-    <button onclick="filterServers()"
-      class="bg-pink-400 hover:bg-pink-500 px-6 py-2 rounded-xl">
-      Search
-    </button>
-  </div>
-</section>
+<!-- Server -->
+<section class="px-6 py-6" id="serversList"></section>
 
-<!-- 🌐 Servers -->
-<section class="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-         id="serversList"></section>
-
-<!-- 📌 Bottom Bar -->
-<nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[95%] max-w-md glass rounded-3xl shadow-xl">
-  <div class="flex justify-around py-3 text-center">
-    
-    <button class="nav-btn active flex flex-col items-center text-sm">
-      🏠
-      <span class="text-xs">Home</span>
-    </button>
-
-    <button class="nav-btn flex flex-col items-center text-sm">
-      🌐
-      <span class="text-xs">Servers</span>
-    </button>
-
-    <button class="nav-btn flex flex-col items-center text-sm">
-      ⚡
-      <span class="text-xs">Connect</span>
-    </button>
-
-    <button class="nav-btn flex flex-col items-center text-sm">
-      ⭐
-      <span class="text-xs">Premium</span>
-    </button>
-
-    <button class="nav-btn flex flex-col items-center text-sm">
-      ⚙️
-      <span class="text-xs">Settings</span>
-    </button>
-
-  </div>
-</nav>
+<!-- Toast -->
+<div id="toast" class="toast">ข้อความ</div>
 
 <script>
-const servers=[
- {country:'United States',ip:'us.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇺🇸'},
- {country:'Japan',ip:'jp.vpn.smilevpn.net',status:'Online',speed:'Medium',flag:'🇯🇵'},
- {country:'Singapore',ip:'sg.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇸🇬'},
- {country:'United Kingdom',ip:'uk.vpn.smilevpn.net',status:'Busy',speed:'Slow',flag:'🇬🇧'},
- {country:'Australia',ip:'au.vpn.smilevpn.net',status:'Online',speed:'Fast',flag:'🇦🇺'},
- {country:'Germany',ip:'de.vpn.smilevpn.net',status:'Online',speed:'Medium',flag:'🇩🇪'}
-];
+const server = {
+  name: "SIM AIS กันรั่ว",
+  location: "ไทย - กรุงเทพ",
+  ip: "bkk.vpn.smilevpn.net",
+  speed: "100mbps",
+  link: "nm-ssh://AZ7ixDRKpWK9QwAkYPRdJ9reuzln770/MhK1GYgDLZKokA2AaKeML6gkaZnRJvOu0cxSm63VzC25fCjlUm40+Gd4q9sVROXVDzgDFU3Ihyl9j5vmsK7LP53HrnpTrAEc2s7rfBhDxAiRZmXT7FFqEkcvzDskAv+QuMMIdQ6CDrZ+XS3Bj8kpfsmK/sSYrcmshSG97S7DWWF1ovefdgV0c9jo+VoGXzR/NkN8IVRHrp2k6r9uM5XQXsIwrt82TDKs"
+};
 
-function badge(text,color){
- return `<span class="px-3 py-1 rounded-full text-xs bg-${color}-400/30 text-${color}-200">${text}</span>`;
+function showToast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
 }
 
-function displayServers(list){
- const box=document.getElementById("serversList");
- box.innerHTML="";
- list.forEach(s=>{
-  box.innerHTML+=`
-   <div class="glass anime-card rounded-3xl p-6">
-     <h2 class="text-xl font-semibold">${s.flag} ${s.country}</h2>
-     <p class="text-sm text-white/70">${s.ip}</p>
-     <div class="flex gap-2 mt-3">
-       ${badge(s.status,s.status=="Online"?"green":"yellow")}
-       ${badge(s.speed,"pink")}
-     </div>
-     <button class="mt-5 w-full py-3 rounded-xl
-       bg-gradient-to-r from-pink-400 to-purple-500">
-       ⚡ Connect
-     </button>
-   </div>`;
- });
+function openNetMod(){
+  // พยายามเปิดแอป
+  window.location.href = server.link;
+
+  // สำรอง: คัดลอกลิงก์ให้หลัง 1 วิ
+  setTimeout(()=>{
+    navigator.clipboard.writeText(server.link).then(()=>{
+      showToast("📋 เปิด NetMod ไม่ได้ → คัดลอกลิงก์ให้แล้ว");
+    });
+  },1000);
 }
 
-function filterServers(){
- const q=document.getElementById("searchInput").value.toLowerCase();
- displayServers(servers.filter(s=>s.country.toLowerCase().includes(q)));
-}
+document.getElementById("serversList").innerHTML = `
+  <div class="glass anime-card rounded-3xl p-6 max-w-md mx-auto">
+    <h2 class="text-xl font-semibold">🇹🇭 ${server.location}</h2>
+    <p class="text-sm text-white/70">${server.name}</p>
+    <p class="text-sm mt-1">${server.ip}</p>
 
-displayServers(servers);
+    <div class="mt-3">
+      <span class="px-3 py-1 rounded-full text-xs bg-green-400/30 text-green-200">
+        ${server.speed}
+      </span>
+    </div>
+
+    <button onclick="openNetMod()"
+      class="mt-5 w-full py-3 rounded-xl font-semibold
+             bg-gradient-to-r from-purple-400 to-pink-500
+             hover:scale-105 transition">
+      🚀 เปิด NetMod
+    </button>
+  </div>
+`;
 </script>
 
 </body>
