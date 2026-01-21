@@ -42,9 +42,7 @@ body::before{
   transition:.4s;
   z-index:50;
 }
-.toast.show{
-  opacity:1;
-}
+.toast.show{opacity:1;}
 </style>
 </head>
 
@@ -54,12 +52,36 @@ body::before{
 <header class="glass mx-4 mt-4 rounded-2xl">
   <div class="px-6 py-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold">🌸 Anime VPN</h1>
-    <span class="text-sm opacity-70">TH Server</span>
+    <span class="text-sm opacity-70">Premium</span>
   </div>
 </header>
 
-<!-- Server -->
-<section class="px-6 py-6" id="serversList"></section>
+<!-- 🔐 PORT INFO (ใส่แล้ว) -->
+<section class="px-6 py-6">
+  <div class="glass rounded-3xl p-5 shadow-lg">
+    <h3 class="text-lg font-semibold mb-4">🔐 ข้อมูลพอร์ต</h3>
+
+    <div class="space-y-3 text-sm">
+      <div class="flex justify-between items-center bg-white/10 rounded-xl px-4 py-3">
+        <span>🐻 DROPBEAR PORTA</span>
+        <span class="font-bold text-pink-300">143</span>
+      </div>
+
+      <div class="flex justify-between items-center bg-white/10 rounded-xl px-4 py-3">
+        <span>🔒 SSL PORTA</span>
+        <span class="font-bold text-green-300">443</span>
+      </div>
+
+      <div class="flex justify-between items-center bg-white/10 rounded-xl px-4 py-3">
+        <span>🌐 PROXY SOCKS PORTA</span>
+        <span class="font-bold text-purple-300">8080</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Server Card -->
+<section class="px-6 pb-6" id="serversList"></section>
 
 <!-- Toast -->
 <div id="toast" class="toast">ข้อความ</div>
@@ -67,7 +89,6 @@ body::before{
 <script>
 const server = {
   name: "SIM AIS กันรั่ว",
-  location: "ไทย - กรุงเทพ",
   ip: "bkk.vpn.smilevpn.net",
   speed: "100mbps",
   link: "nm-ssh://AZ7ixDRKpWK9QwAkYPRdJ9reuzln770/MhK1GYgDLZKokA2AaKeML6gkaZnRJvOu0cxSm63VzC25fCjlUm40+Gd4q9sVROXVDzgDFU3Ihyl9j5vmsK7LP53HrnpTrAEc2s7rfBhDxAiRZmXT7FFqEkcvzDskAv+QuMMIdQ6CDrZ+XS3Bj8kpfsmK/sSYrcmshSG97S7DWWF1ovefdgV0c9jo+VoGXzR/NkN8IVRHrp2k6r9uM5XQXsIwrt82TDKs"
@@ -81,22 +102,18 @@ function showToast(msg){
 }
 
 function openNetMod(){
-  // พยายามเปิดแอป
   window.location.href = server.link;
-
-  // สำรอง: คัดลอกลิงก์ให้หลัง 1 วิ
   setTimeout(()=>{
     navigator.clipboard.writeText(server.link).then(()=>{
-      showToast("📋 เปิด NetMod ไม่ได้ → คัดลอกลิงก์ให้แล้ว");
+      showToast("📋 เปิดแอปไม่ได้ → คัดลอกลิงก์ให้แล้ว");
     });
   },1000);
 }
 
 document.getElementById("serversList").innerHTML = `
   <div class="glass anime-card rounded-3xl p-6 max-w-md mx-auto">
-    <h2 class="text-xl font-semibold">🇹🇭 ${server.location}</h2>
-    <p class="text-sm text-white/70">${server.name}</p>
-    <p class="text-sm mt-1">${server.ip}</p>
+    <h2 class="text-xl font-semibold">🇹🇭 SIM AIS กันรั่ว</h2>
+    <p class="text-sm mt-1 text-white/80">${server.ip}</p>
 
     <div class="mt-3">
       <span class="px-3 py-1 rounded-full text-xs bg-green-400/30 text-green-200">
@@ -108,7 +125,7 @@ document.getElementById("serversList").innerHTML = `
       class="mt-5 w-full py-3 rounded-xl font-semibold
              bg-gradient-to-r from-purple-400 to-pink-500
              hover:scale-105 transition">
-      🚀 เปิด NetMod
+      🚀 คัดลอกโค้ด
     </button>
   </div>
 `;
